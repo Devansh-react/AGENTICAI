@@ -130,9 +130,6 @@ Want to add more tones or tweak behavior?
 
 ---
 
-## 🌟 Credits
-
-Developed by \[Your Name or Team Name] using LangChain + LangGraph.
 
 ---
 
