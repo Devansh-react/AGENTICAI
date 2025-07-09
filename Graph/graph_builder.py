@@ -26,8 +26,23 @@ def route_path(state: State):
         case _:
             return "logical_agent"
 
-
-
+def update_mood(state: State)-> State:
+    last_message = state.get("message_type")
+    profile = state.get("user_profile",{})
+    if last_message == "positive":
+        profile["last_mood"] ="happy"
+    elif last_message == "negative":
+        profile["last_mood"] = "angry"
+    elif last_message == "emotional":
+        profile["last_mood"] = "emotional"
+    else:
+        profile["last_mood"] = "neutral"
+        
+    state["user_profile"] = profile
+    
+    profile["interaction_count"] = str(int(profile["interaction_count"])+1)
+    state["user_profile"] = profile
+    return state
 
 def build_graph():
     graph_builder = StateGraph(State)
@@ -44,16 +59,20 @@ def build_graph():
     graph_builder.add_node("sarcastic_agent", sarcastic_agent)
     graph_builder.add_node("angry_agent", angry_agent)
     graph_builder.add_node("motivational_agent", motivational_agent)
+    graph_builder.add_node("update_mood", update_mood)
+    
 
     graph_builder.add_edge(START, "classify_message")
     
-    graph_builder.add_edge("classify_message", "route")
-
+    graph_builder.add_edge("classify_message", "route") 
+    
     graph_builder.add_conditional_edges("route", route_path)
-    graph_builder.add_edge("logical_agent", END)
-    graph_builder.add_edge("emotional_agent", END)
-    graph_builder.add_edge("sarcastic_agent", END)
-    graph_builder.add_edge("angry_agent", END)
-    graph_builder.add_edge("motivational_agent", END)
+    graph_builder.add_edge("logical_agent", "update_mood")
+    graph_builder.add_edge("emotional_agent", "update_mood")
+    graph_builder.add_edge("sarcastic_agent", "update_mood")
+    graph_builder.add_edge("angry_agent", "update_mood")
+    graph_builder.add_edge("motivational_agent", "update_mood")
+    
+    graph_builder.add_edge("update_mood",END)
 
     return graph_builder.compile()

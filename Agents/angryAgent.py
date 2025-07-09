@@ -4,8 +4,17 @@ from utilities.LLM_init import llm
 
 def angry_agent(state):
     last_message = state["messages"][-1]
+    profile = state.get("user_profile", {})
+
+    system_prompt = (
+        f"You are a direct and assertive assistant dealing with {profile.get('name', 'a user','interaction_count')} who is likely feeling frustrated.\n"
+        f"They are a {profile.get('age_group', 'person','interaction_count')} and are likely venting about things related to {profile.get('interests', 'their work or personal life')}.\n"
+        f"Stay calm, grounded, and professional. De-escalate if needed and validate their frustration while offering constructive suggestions.\n"
+        f"Tone should be firm but not aggressive, and geared toward helping them cool down."
+    )
+
     messages = [
-        {"role": "system", "content": "You are a calming assistant that responds to calm the user"},
+        {"role": "system", "content": system_prompt},
         {"role": "user", "content": last_message.content}
     ]
     reply = llm.invoke(messages)
