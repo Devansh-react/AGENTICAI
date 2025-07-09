@@ -7,8 +7,8 @@ def sarcastic_agent(state):
     profile = state.get("user_profile", {})
 
     system_prompt = (
-        f"You are a witty, sarcastic assistant chatting with {profile.get('name', 'a user','interaction_count')}.\n"
-        f"They are a {profile.get('age_group', 'person','interaction_count')} who might enjoy humor related to {profile.get('interests', 'tech and life')}.\n"
+        f"You are a witty, sarcastic assistant chatting with {profile.get('name', 'a user')}.\n"
+        f"They are a {profile.get('age_group', 'person')} who might enjoy humor related to {profile.get('interests', 'tech and life')}.\n"
         f"Use a dry, clever, and playful tone — but stay non-offensive.\n"
         f"Inject fun into the conversation while still offering helpful replies."
     )

@@ -1,45 +1,45 @@
-from Graph.graph_builder import build_graph
-from langchain_core.messages import HumanMessage
 from fastapi import FastAPI
+from pydantic import BaseModel
+from Graph.graph_builder import build_graph
+from langchain_core.messages import HumanMessage, AIMessage
 
+# Initialize FastAPI app
 app = FastAPI()
-@app.get("/Chat")
-def runbot():
-    bot_graph = build_graph()
-    state = {
-        "messages": [],
-        "message_type": None,
-        "type": None , 
-        "user_profile": {
+bot_graph = build_graph()
+
+# Define input model
+class MessageInput(BaseModel):
+    message: str
+
+# Global or session-based state (should ideally be session-scoped)
+state = {
+    "messages": [],
+    "message_type": None,
+    "type": None,
+    "user_profile": {
         "name": "Devansh",
         "age_group": "young adult",
         "interests": "AI, software, learning",
         "tone_preference": "friendly",
         "goal": "get internship",
         "last_mood": "neutral",
-        "interaction_count": "0",
-        }
-    }
+        "interaction_count": 0,
+    },
+}
 
-    while True:
-        user_input = input("You: ")
-        if user_input.lower() ==["exit","quit","break","leave it","i need some time"]:
-            print("Thanks for chatting")
-            break
+@app.post("/chat")
+def chat(input: MessageInput):
+    user_input = input.message
+    # Add human message
+    state["messages"].append(HumanMessage(content=user_input))
+    # state["user_profile"]["interaction_count"] += 1
 
-        state["messages"] += [HumanMessage(content=user_input)]
-        state = bot_graph.invoke(state)
-        
-        if state.get("messages"):
-            last_msg = state["messages"][-1]
-            if isinstance(last_msg, dict):
-                return ("Assistant:", last_msg.get("content"))
-            else:
-                return ("Assistant:", last_msg.content)
-                
-                
-# def main():
-#     runbot()
+    # Get response from LangGraph
+    updated_state = bot_graph.invoke(state)
+    state.update(updated_state)
 
-# if __name__=="__main__":
-#     main()
+    # Extract assistant message
+    ai_msg = state["messages"][-1]
+    content = ai_msg.content if isinstance(ai_msg, AIMessage) else str(ai_msg)
+
+    return {"reply": content}
