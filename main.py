@@ -19,7 +19,7 @@ state = {
     "user_profile": {
         "name": "Devansh",
         "age_group": "young adult",
-        "interests": "AI, software, learning",
+        "interests": "F1 racing , max verstappen",
         "tone_preference": "friendly",
         "goal": "get internship",
         "last_mood": "neutral",

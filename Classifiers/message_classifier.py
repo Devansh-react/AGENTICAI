@@ -4,8 +4,8 @@ from pydantic import BaseModel, Field
 from Schema.models import State
 
 class MessageClassifier(BaseModel):
-    message: Literal["emotional", "logical","sarcastic","angry","motivational"] = Field(
-        ..., description="Classify the user message"
+    message: Literal["emotional", "logical","sarcastic","angry","motivational" , "Humanlike"] = Field(
+        ..., description="Classify the user message upon the following catagory "
     )
     
 def classify_message(state: State):
@@ -16,6 +16,7 @@ def classify_message(state: State):
         {
             "role": "system",
             "content": """Classify the user message as either:
+            'humanlike':for normal humam like response eg hi hello how are you
             - 'emotional': for emotional support
             - 'logical': for factual/logical queries
             - 'sarcastic': witty assistant that responds sarcastically

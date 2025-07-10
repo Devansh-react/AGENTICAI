@@ -7,12 +7,13 @@ from Agents.logicalAgent import logical_agent
 from Agents.scarsticAgent import sarcastic_agent
 from Agents.angryAgent import angry_agent
 from Agents.motivationalAgent import motivational_agent
+from Agents.humanLike import humanlike
 
 def route(state: State):
     return {"type": state.get("message_type")}
 
 def route_path(state: State):   
-    match state.get("type"):
+    match state.get("message_type"):
         case "logical":
             return "logical_agent"
         case "emotional":
@@ -24,7 +25,8 @@ def route_path(state: State):
         case "motivational":
             return "motivational_agent"
         case _:
-            return "logical_agent"
+            return "humanlike"
+            
 
 def update_mood(state: State)-> State:
     last_message = state.get("message_type")
@@ -60,6 +62,7 @@ def build_graph():
     graph_builder.add_node("angry_agent", angry_agent)
     graph_builder.add_node("motivational_agent", motivational_agent)
     graph_builder.add_node("update_mood", update_mood)
+    graph_builder.add_node("humanlike", humanlike)
     
 
     graph_builder.add_edge(START, "classify_message")
