@@ -12,10 +12,17 @@ def angry_agent(state):
         f"Stay calm, grounded, and professional. De-escalate if needed and validate their frustration while offering constructive suggestions.\n"
         f"Tone should be firm but not aggressive, and geared toward helping them cool down."
     )
+    chat_history = []
+    for msg in state["messages"]:
+        if isinstance(msg, HumanMessage):
+            chat_history.append({"role": "user", "content": msg.content})
+        elif isinstance(msg, AIMessage):
+            chat_history.append({"role": "assistant", "content": msg.content})
+
 
     messages = [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": last_message.content}
-    ]
+    ]+chat_history
     reply = llm.invoke(messages)
     return {"messages": [AIMessage(content=reply.content)]}

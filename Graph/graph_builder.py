@@ -41,9 +41,6 @@ def update_mood(state: State)-> State:
         profile["last_mood"] = "neutral"
         
     state["user_profile"] = profile
-    
-    profile["interaction_count"] = str(int(profile["interaction_count"])+1)
-    state["user_profile"] = profile
     return state
 
 def build_graph():

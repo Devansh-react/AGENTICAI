@@ -1,45 +1,60 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from Graph.graph_builder import build_graph
-from langchain_core.messages import HumanMessage, AIMessage
-
+from langchain_core.messages import HumanMessage, AIMessage , BaseMessage
+from Database.memory_manager import get_history
 # Initialize FastAPI app
 app = FastAPI()
 bot_graph = build_graph()
 
 # Define input model
 class MessageInput(BaseModel):
+    session_id:str
     message: str
 
 # Global or session-based state (should ideally be session-scoped)
-state = {
-    "messages": [],
+
+
+@app.post("/chat")
+def chat(input: MessageInput):
+    session_id = input.session_id
+    user_input = input.message
+    
+    
+    # retriving onder messages 
+    history_message = get_history(session_id)
+    
+    # saving new user messages 
+    history_message.add_user_message(user_input)
+    
+    
+    # adding messages to message list filtering out the ai and humna message 
+    messages = []
+    for m in history_message.messages:
+        if(m.type=="human"):
+            messages.append(HumanMessage(content=m.content))
+        else:
+            messages.append(AIMessage(content=m.content))
+            
+    # now updating the message in state   
+    state = {
+    "messages":messages,
     "message_type": None,
     "type": None,
     "user_profile": {
+        "session_id":session_id,
         "name": "Devansh",
         "age_group": "young adult",
         "interests": "F1 racing , max verstappen",
         "tone_preference": "friendly",
         "goal": "get internship",
         "last_mood": "neutral",
-        "interaction_count": 0,
     },
-}
+    }     
+    new_state = bot_graph.invoke(state)
+    ai_response = new_state["messages"][-1].content
 
-@app.post("/chat")
-def chat(input: MessageInput):
-    user_input = input.message
-    # Add human message
-    state["messages"].append(HumanMessage(content=user_input))
-    # state["user_profile"]["interaction_count"] += 1
+    # Save assistant message
+    history_message.add_ai_message(ai_response)
 
-    # Get response from LangGraph
-    updated_state = bot_graph.invoke(state)
-    state.update(updated_state)
-
-    # Extract assistant message
-    ai_msg = state["messages"][-1]
-    content = ai_msg.content if isinstance(ai_msg, AIMessage) else str(ai_msg)
-
-    return {"reply": content}
+    return {"reply": ai_response}
