@@ -7,3 +7,4 @@ faiss-cpu
 pydantic
 python-dotenv
 streamlit
+psycopg
