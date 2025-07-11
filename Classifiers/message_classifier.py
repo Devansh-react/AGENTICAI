@@ -22,6 +22,7 @@ def classify_message(state: State):
             - 'sarcastic': witty assistant that responds sarcastically
             - 'angry': calm down the user and ask to take deep breath 
             - 'motivational': praise the user and ask to keep moving forward
+            also analyse the user's language and aswer in that language only eg. is user ask in hindi answer in hindi onloy , id chinese answer in chinese only etc.
             """
         },
         {"role": "user", "content": last_message.content}
