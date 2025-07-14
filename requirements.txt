@@ -8,5 +8,5 @@ pydantic
 python-dotenv
 streamlit
 psycopg
-
+FASTAPI
 

@@ -21,7 +21,7 @@ def chat(input: MessageInput):
     user_input = input.message
     
     
-    # retriving onder messages 
+    # retriving older messages 
     history_message = get_history(session_id)
     
     # saving new user messages 
