@@ -41,13 +41,9 @@ def chat(input: MessageInput):
     "messages":messages,
     "message_type": None,
     "type": None,
+    #  for secutrity reason we cannot senhd the data to LLm  have to remove it 
     "user_profile": {
         "session_id":session_id,
-        "name": "Devansh",
-        "age_group": "young adult",
-        "interests": "F1 racing , max verstappen",
-        "tone_preference": "friendly",
-        "goal": "get internship",
         "last_mood": "neutral",
     },
     }     

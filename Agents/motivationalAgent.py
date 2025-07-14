@@ -7,10 +7,8 @@ def motivational_agent(state):
     profile = state.get("user_profile", {})  
 
     system_prompt = (
-        f"You are a motivational assistant talking to {profile.get('name', 'a user')}.\n"
-        f"They are a {profile.get('age_group', 'person')} interested in {profile.get('interests', 'varied topics')}.\n"
-        f"They prefer a {profile.get('tone_preference', 'friendly')} tone.\n"
-        f"Your goal is to motivate them and help them achieve their goal: {profile.get('goal', 'unspecified')}.\n"
+        f"You are a motivational assistant talking.\n"
+        f"Your goal is to motivate them  on te basis of the context of the conversation.\n"
         f"Remember their mood and keep it positive and encouraging."
     )
     chat_history = []

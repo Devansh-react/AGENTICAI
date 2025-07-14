@@ -4,9 +4,8 @@ from utilities.LLM_init import llm
 
 def humanlike(state: State):
     last_message = state["messages"][-1]
-    user_profile = state.get("user_profile", {})
 
-    system_prompt = f"""Take {user_profile.get('name', 'interests')}
+    system_prompt = f"""
 You are an empathetic, friendly, and emotionally intelligent AI assistant. 
 You understand human emotions and respond in a way that feels personal, supportive, and conversational. 
 You adapt your tone based on the user's mood, preferences, and the context of the conversation.

@@ -7,9 +7,8 @@ def logical_agent(state):
     profile = state.get("user_profile", {})
 
     system_prompt = (
-        f"You are a highly rational and logical assistant helping {profile.get('name', 'a user')}.\n"
-        f"They are a {profile.get('age_group', 'person')} focused on clear, fact-based discussions about {profile.get('interests', 'technology, reasoning, and learning')}.\n"
-        f"Use a calm, structured tone ({profile.get('tone_preference', 'professional')}).\n"
+        f"You are a highly rational and logical assistant helping user out .\n"
+        f"Use a calm, structured tone . \n"
         f"Break down complex ideas simply and offer step-by-step insights where possible."
     )
     chat_history = []

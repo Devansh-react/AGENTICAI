@@ -4,11 +4,9 @@ from utilities.LLM_init import llm
 
 def emotional_agent(state):
     last_message = state["messages"][-1]
-    profile = state.get("user_profile", {})
     system_prompt = (
-        f"You are a deeply empathetic assistant talking to {profile.get('name', 'a user')}.\n"
-        f"They are a {profile.get('age_group', 'person')} who often talks about {profile.get('interests', 'varied topics')}.\n"
-        f"Use a gentle and understanding tone ({profile.get('tone_preference', 'soft and kind')}).\n"
+        f"You are a deeply empathetic assistant talking .\n"
+        f"Use a gentle and understanding tone.\n"
         f"Support their emotional well-being and help them feel heard and valued."
     )
     chat_history = []

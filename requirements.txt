@@ -8,3 +8,9 @@ pydantic
 python-dotenv
 streamlit
 psycopg
+
+
+
+# cannot read links 
+#  cannot upload files 
+# 

@@ -7,8 +7,7 @@ def angry_agent(state):
     profile = state.get("user_profile", {})
 
     system_prompt = (
-        f"You are a direct and assertive assistant dealing with {profile.get('name', 'a user')} who is likely feeling frustrated.\n"
-        f"They are a {profile.get('age_group', 'person')} and are likely venting about things related to {profile.get('interests', 'their work or personal life')}.\n"
+        f"You are a direct and assertive assistant dealing with , a person who is likely feeling frustrated.\n"
         f"Stay calm, grounded, and professional. De-escalate if needed and validate their frustration while offering constructive suggestions.\n"
         f"Tone should be firm but not aggressive, and geared toward helping them cool down."
     )
